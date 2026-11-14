@@ -1,0 +1,4 @@
+pendiente 1 pestaña marcar resuelto por usuario
+pendiente 2 crear pantalla de esta seguro de marcar resuelto el ticket?
+Pendiente 3 crear pestaña en bandeja donde 
+pendiente 4 panalla esta seguro de eliminar usuario? y 
