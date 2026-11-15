@@ -47,19 +47,33 @@ public class BarraSuperior extends JPanel {
         lblPerfilUsuario.setToolTipText("Clic para cerrar sesión");
         add(lblPerfilUsuario);
 
-        // Evento para poder cerrar sesión y volver al Login (RF-02)
+     // Evento al hacer clic en el usuario arriba a la derecha: Abrir Perfil (Pantalla 10) o Cerrar Sesión
         lblPerfilUsuario.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int respuesta = JOptionPane.showConfirmDialog(BarraSuperior.this,
-                        "¿Desea cerrar la sesión actual?",
-                        "Cerrar Sesión", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION && marcoPadre != null) {
-                    marcoPadre.mostrarPantalla("PANTALLA_LOGIN");
+                String[] opciones = { "👤 Ir a Centro de Perfil", "📋 Ir a Bandeja Principal", "🚪 Cerrar Sesión" };
+                int eleccion = JOptionPane.showOptionDialog(
+                        BarraSuperior.this,
+                        "Seleccione una acción para la cuenta activa:",
+                        "Opciones de Usuario",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        opciones,
+                        opciones[0]);
+
+                if (marcoPadre != null) {
+                    if (eleccion == 0) {
+                        marcoPadre.abrirPerfilUsuarioActivo();
+                    } else if (eleccion == 1) {
+                        marcoPadre.volverPantallaInicio();
+                    } else if (eleccion == 2) {
+                        marcoPadre.mostrarPantalla("PANTALLA_LOGIN");
+                    }
                 }
             }
         });
-    }
+        }
 
     /**
      * Este método cambia automáticamente los textos de la barra según quién inicie sesión

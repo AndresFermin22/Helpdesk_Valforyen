@@ -213,24 +213,22 @@ public class PanelLogin extends JPanel {
                     "Campos Obligatorios", JOptionPane.WARNING_MESSAGE);
             return;
         }
-     // 4. Direccionamiento según el rol (Admin/Ingeniero -> Pantalla 11 | Médico -> Pantalla 6 filtrada)
+     // 4. Direccionamiento según el rol con todos los datos para el Perfil (Pantalla 10)
         if (usuario.equals("admin") && clave.equals("Admin123*")) {
             intentosFallidos = 0;
-            marcoPadre.iniciarSesionUsuario("Ing. Andrés F. (Admin TI)", "Soporte TI", "Administrador de TI", "PANTALLA_BANDEJA_GLOBAL");
+            marcoPadre.iniciarSesionUsuario("Ing. Andrés F. (Admin TI)", "1.095.912.311", "admin.ti", "Soporte TI", "Administrador de TI", "PANTALLA_BANDEJA_GLOBAL");
             
         } else if (usuario.equals("ingeniero") && clave.equals("Soporte123*")) {
             intentosFallidos = 0;
-            marcoPadre.iniciarSesionUsuario("Ing. Andrés F.", "Soporte TI", "Ingeniero de Soporte", "PANTALLA_BANDEJA_GLOBAL");
+            marcoPadre.iniciarSesionUsuario("Ing. Andrés F.", "1.095.912.311", "a.ortega", "Soporte TI", "Ingeniero de Soporte", "PANTALLA_BANDEJA_GLOBAL");
             
         } else if (usuario.equals("medico") && clave.equals("Clinica123*")) {
             intentosFallidos = 0;
-            marcoPadre.iniciarSesionUsuario("Fermin López", "Urgencias", "Médico General", "PANTALLA_BANDEJA_TICKETS");
+            marcoPadre.iniciarSesionUsuario("Fermin López", "1.098.765.432", "f.lopez", "Urgencias", "Médico General", "PANTALLA_BANDEJA_TICKETS");
             
         } else if (usuario.equals("karen") && clave.equals("Clinica123*")) {
             intentosFallidos = 0;
-            marcoPadre.iniciarSesionUsuario("Karen Rueda", "Urgencias", "Médico General", "PANTALLA_BANDEJA_TICKETS");
-
-        
+            marcoPadre.iniciarSesionUsuario("Karen Rueda", "1.098.234.890", "k.rueda", "Urgencias", "Médico General", "PANTALLA_BANDEJA_TICKETS");
         }else {
             // Si falla: aumentamos el registro de intentos (RF-04)
             intentosFallidos++;

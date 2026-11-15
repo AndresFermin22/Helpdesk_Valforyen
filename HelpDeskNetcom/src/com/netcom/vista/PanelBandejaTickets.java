@@ -406,6 +406,33 @@ public class PanelBandejaTickets extends JPanel {
         }
         recalcularContadores();
     }
+    
+    /**
+     * Cuenta en tiempo real cuántos tickets tiene el usuario en cada estado para la Pantalla 10 (Perfil)
+     */
+    public int[] obtenerResumenPorSolicitante(String nombreSolicitante) {
+        int abiertos = 0;
+        int enProceso = 0;
+        int cerrados = 0;
+
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            String solicitanteFila = modeloTabla.getValueAt(i, 2).toString();
+            String estadoFila = modeloTabla.getValueAt(i, 6).toString().toUpperCase();
+
+            // Si es Admin cuenta todos, o si coincide con el nombre del médico conectado
+            if (nombreSolicitante.contains("Admin") || nombreSolicitante.contains("Ing.")
+                    || solicitanteFila.equalsIgnoreCase(nombreSolicitante)) {
+                if (estadoFila.equals("ABIERTO") || estadoFila.equals("REABIERTO")) {
+                    abiertos++;
+                } else if (estadoFila.equals("EN PROCESO") || estadoFila.equals("PENDIENTE")) {
+                    enProceso++;
+                } else if (estadoFila.equals("RESUELTO") || estadoFila.equals("CERRADO")) {
+                    cerrados++;
+                }
+            }
+        }
+        return new int[] { abiertos, enProceso, cerrados };
+    }
 
     public BarraSuperior getBarraSuperior() {
         return barraSuperior;

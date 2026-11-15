@@ -360,9 +360,14 @@ public class PanelDetallesTicket extends JPanel {
                 marcoPadre.sincronizarTicketResueltoEnTablas(idTicketActual);
             }
 
-            JOptionPane.showMessageDialog(this,
-                    "¡El ticket " + idTicketActual + " ha sido marcado como RESUELTO exitosamente!",
-                    "Ticket Resuelto", JOptionPane.INFORMATION_MESSAGE);
+         // Cambiamos la etiqueta visual de esta pantalla a RESUELTO en verde
+            actualizarEtiquetaEstado("RESUELTO");
+            btnMarcarResuelto.setEnabled(false);
+
+            // Actualizamos las tablas y abrimos la Pantalla 12 (¡Ticket Resuelto!)
+            if (marcoPadre != null) {
+                marcoPadre.sincronizarTicketResueltoEnTablas(idTicketActual);
+            }
         }
     }
 
