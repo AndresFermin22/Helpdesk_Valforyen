@@ -1,4 +1,5 @@
 pendiente 1 pestaña marcar resuelto por usuario
 pendiente 2 crear pantalla de esta seguro de marcar resuelto el ticket?
 Pendiente 3 crear pestaña en bandeja donde 
-pendiente 4 panalla esta seguro de eliminar usuario? y 
+pendiente 4 panalla esta seguro de eliminar usuario? 
+pendiente 5 en centro de mando ti en bandeja tickets falta agregar en una columna el nombre de la persona o red
