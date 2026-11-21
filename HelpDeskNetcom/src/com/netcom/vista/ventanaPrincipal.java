@@ -24,7 +24,7 @@ public class ventanaPrincipal extends JFrame {
     private String pantallaAnterior = "PANTALLA_LOGIN";
     private String pantallaInicioRol = "PANTALLA_BANDEJA_GLOBAL";
 
-    // Pantallas del sistema
+    // Todas las pantallas del sistema
     private PanelLogin pantallaLogin;
     private PanelCreacionUsuario pantallaCreacionUsuario;
     private PanelUsuarioCreado pantallaUsuarioCreado;
@@ -37,7 +37,13 @@ public class ventanaPrincipal extends JFrame {
     private PanelPerfilUsuario pantallaPerfilUsuario;
     private PanelBandejaGlobal pantallaBandejaGlobal;
     private PanelTicketResuelto pantallaTicketResuelto;
+    private PanelExportarTickets pantallaExportarTickets;
+    private PanelInformeExportado pantallaInformeExportado;
+    private PanelInventario pantallaInventario;
+    private PanelDashboard pantallaDashboard;
     private PanelAdministracionUsuarios pantallaAdminUsuarios;
+    private PanelEliminarUsuario pantallaEliminarUsuario;
+    private PanelUsuarioEliminado pantallaUsuarioEliminado;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -77,7 +83,13 @@ public class ventanaPrincipal extends JFrame {
         pantallaPerfilUsuario = new PanelPerfilUsuario(this);
         pantallaBandejaGlobal = new PanelBandejaGlobal(this);
         pantallaTicketResuelto = new PanelTicketResuelto(this);
+        pantallaExportarTickets = new PanelExportarTickets(this);
+        pantallaInformeExportado = new PanelInformeExportado(this);
+        pantallaInventario = new PanelInventario(this);
+        pantallaDashboard = new PanelDashboard(this);
         pantallaAdminUsuarios = new PanelAdministracionUsuarios(this);
+        pantallaEliminarUsuario = new PanelEliminarUsuario(this);
+        pantallaUsuarioEliminado = new PanelUsuarioEliminado(this);
 
         // 2. Las registramos en el CardLayout
         panelContenedorMaestro.add(pantallaLogin, "PANTALLA_LOGIN");
@@ -92,8 +104,15 @@ public class ventanaPrincipal extends JFrame {
         panelContenedorMaestro.add(pantallaPerfilUsuario, "PANTALLA_PERFIL_USUARIO");
         panelContenedorMaestro.add(pantallaBandejaGlobal, "PANTALLA_BANDEJA_GLOBAL");
         panelContenedorMaestro.add(pantallaTicketResuelto, "PANTALLA_TICKET_RESUELTO");
+        panelContenedorMaestro.add(pantallaExportarTickets, "PANTALLA_EXPORTAR_TICKETS");
+        panelContenedorMaestro.add(pantallaInformeExportado, "PANTALLA_INFORME_EXPORTADO");
+        panelContenedorMaestro.add(pantallaInventario, "PANTALLA_INVENTARIO");
+        panelContenedorMaestro.add(pantallaDashboard, "PANTALLA_DASHBOARD");
         panelContenedorMaestro.add(pantallaAdminUsuarios, "PANTALLA_ADMIN_USUARIOS");
+        panelContenedorMaestro.add(pantallaEliminarUsuario, "PANTALLA_ELIMINAR_USUARIO");
+        panelContenedorMaestro.add(pantallaUsuarioEliminado, "PANTALLA_USUARIO_ELIMINADO");
 
+        // 3. Arrancamos en el Login
         cardLayout.show(panelContenedorMaestro, "PANTALLA_LOGIN");
     }
 
@@ -101,7 +120,10 @@ public class ventanaPrincipal extends JFrame {
         if (!this.pantallaActual.equals("PANTALLA_USUARIO_CREADO")
                 && !this.pantallaActual.equals("PANTALLA_SOLICITUD_ENVIADA")
                 && !this.pantallaActual.equals("PANTALLA_TICKET_CREADO")
-                && !this.pantallaActual.equals("PANTALLA_TICKET_RESUELTO")) {
+                && !this.pantallaActual.equals("PANTALLA_INFORME_EXPORTADO")
+                && !this.pantallaActual.equals("PANTALLA_TICKET_RESUELTO")
+                && !this.pantallaActual.equals("PANTALLA_ELIMINAR_USUARIO")
+                && !this.pantallaActual.equals("PANTALLA_USUARIO_ELIMINADO")) {
             this.pantallaAnterior = this.pantallaActual;
         }
         this.pantallaActual = nuevaPantalla;
@@ -121,7 +143,7 @@ public class ventanaPrincipal extends JFrame {
     }
 
     /**
-     * Inicia sesión guardando todos los datos del usuario para conectarlos con el Perfil (Pantalla 10) y Registro (Pantalla 7)
+     * Inicia sesión guardando todos los datos del usuario para conectarlos con el Perfil, Registro y Barras Superiores
      */
     public void iniciarSesionUsuario(String nombreMostrar, String cedula, String usuarioRed, String area, String cargoRol, String pantallaDestino) {
         this.nombreSesionActiva = nombreMostrar;
@@ -131,7 +153,7 @@ public class ventanaPrincipal extends JFrame {
         this.rolSesionActiva = cargoRol;
         this.pantallaInicioRol = pantallaDestino;
 
-        // Actualizamos los títulos de las barras superiores
+        // Actualizamos los títulos y el perfil en todas las barras superiores
         pantallaCreacionUsuario.getBarraSuperior().actualizarBarraSegunRol(nombreSesionActiva, rolSesionActiva);
         pantallaUsuarioCreado.getBarraSuperior().actualizarBarraSegunRol(nombreSesionActiva, rolSesionActiva);
         pantallaBandejaTickets.getBarraSuperior().cambiarTitulo("Centro de Bandejas Tickets", nombreSesionActiva);
@@ -139,6 +161,8 @@ public class ventanaPrincipal extends JFrame {
         pantallaDetallesTicket.getBarraSuperior().cambiarTitulo("Detalles Tickets", nombreSesionActiva);
         pantallaPerfilUsuario.getBarraSuperior().cambiarTitulo("Centro de Perfil", nombreSesionActiva);
         pantallaBandejaGlobal.getBarraSuperior().cambiarTitulo("Centro de Mando TI", nombreSesionActiva);
+        pantallaInventario.getBarraSuperior().cambiarTitulo("Centro de Mando TI", nombreSesionActiva);
+        pantallaDashboard.getBarraSuperior().cambiarTitulo("Centro de Mando TI", nombreSesionActiva);
         pantallaAdminUsuarios.getBarraSuperior().cambiarTitulo("Centro de Mando TI", nombreSesionActiva);
 
         pantallaRegistroTicket.autocompletarSolicitante(nombreSesionActiva, areaSesionActiva, rolSesionActiva);
@@ -148,7 +172,7 @@ public class ventanaPrincipal extends JFrame {
     }
 
     /**
-     * Abre la Pantalla 10 (Centro de Perfil) calculando en vivo cuántos tickets tiene el usuario en cada estado
+     * Abre la Pantalla 10 (Centro de Perfil) calculando en vivo los tickets del usuario conectado
      */
     public void abrirPerfilUsuarioActivo() {
         int[] conteo = pantallaBandejaTickets.obtenerResumenPorSolicitante(nombreSesionActiva);
@@ -156,6 +180,14 @@ public class ventanaPrincipal extends JFrame {
                 nombreSesionActiva, rolSesionActiva, cedulaSesionActiva, usuarioRedSesionActiva,
                 areaSesionActiva, conteo[0], conteo[1], conteo[2]);
         mostrarPantalla("PANTALLA_PERFIL_USUARIO");
+    }
+
+    /**
+     * Recalcula el Top 5, tiempos promedio y gráfica quincenal antes de abrir la Pantalla 16
+     */
+    public void abrirDashboardKPIs() {
+        pantallaDashboard.actualizarMetricasDesdeBandeja(pantallaBandejaGlobal.obtenerTodosLosTicketsGlobales());
+        mostrarPantalla("PANTALLA_DASHBOARD");
     }
 
     public void abrirFormularioNuevoUsuario() {
@@ -182,9 +214,26 @@ public class ventanaPrincipal extends JFrame {
         }
     }
 
+    /**
+     * Abre la Pantalla 19 ("¿Eliminar Usuario?") con el nombre real de la fila seleccionada en la Pantalla 17
+     */
+    public void abrirConfirmacionEliminarUsuario(int filaTabla, String nombreUsuario) {
+        pantallaEliminarUsuario.cargarUsuarioAEliminar(filaTabla, nombreUsuario);
+        mostrarPantalla("PANTALLA_ELIMINAR_USUARIO");
+    }
+
+    /**
+     * Al confirmar en la Pantalla 19, inhabilita al usuario en la tabla y abre la Pantalla 20 ("¡Usuario Eliminado!")
+     */
+    public void confirmarEliminacionUsuario(int filaTabla) {
+        pantallaAdminUsuarios.inhabilitarUsuarioEnTabla(filaTabla);
+        mostrarPantalla("PANTALLA_USUARIO_ELIMINADO");
+    }
+
     public void registrarTicketYMostrarConfirmacion(String fecha, String solicitante, String area, String categoria, String prioridad) {
         String codigoGenerado = pantallaBandejaTickets.agregarNuevoTicketATabla(fecha, solicitante, area, categoria, prioridad);
         pantallaBandejaGlobal.agregarTicketAGlobal(codigoGenerado, fecha, solicitante, area, categoria, prioridad);
+        pantallaDashboard.registrarHoraCreacionTicket(codigoGenerado);
 
         pantallaTicketCreado.mostrarCodigoTicket(codigoGenerado);
         mostrarPantalla("PANTALLA_TICKET_CREADO");
@@ -196,14 +245,17 @@ public class ventanaPrincipal extends JFrame {
         mostrarPantalla("PANTALLA_DETALLES_TICKET");
     }
 
-    /**
-     * Cuando se marca como Resuelto en la Pantalla 9, actualiza ambas tablas y muestra la Pantalla 12 (¡Ticket Resuelto!)
-     */
     public void sincronizarTicketResueltoEnTablas(String idTicket) {
         pantallaBandejaTickets.actualizarEstadoTicketEnBandeja(idTicket, "RESUELTO");
         pantallaBandejaGlobal.actualizarEstadoTicketGlobal(idTicket, "RESUELTO");
+        pantallaDashboard.registrarHoraResolucionTicket(idTicket);
 
         pantallaTicketResuelto.mostrarTicketResuelto(idTicket);
         mostrarPantalla("PANTALLA_TICKET_RESUELTO");
+    }
+
+    public void mostrarInformeExportado(String rango, String area, String estado, String formato, boolean incluirDetalle) {
+        pantallaInformeExportado.cargarResumenExportacion(rango, area, estado, formato, incluirDetalle);
+        mostrarPantalla("PANTALLA_INFORME_EXPORTADO");
     }
 }

@@ -88,6 +88,15 @@ public class PanelAdministracionUsuarios extends JPanel {
         lblTabInventario.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lblTabInventario.setBounds(200, 0, 145, 44);
         panelSubMenu.add(lblTabInventario);
+        
+        lblTabInventario.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (marcoPadre != null) {
+                    marcoPadre.mostrarPantalla("PANTALLA_INVENTARIO");
+                }
+            }
+        });
 
         // Pestaña 3: Dashboard KPIs
         JLabel lblTabDashboard = new JLabel("Dashboard KPIs", SwingConstants.CENTER);
@@ -97,6 +106,16 @@ public class PanelAdministracionUsuarios extends JPanel {
         lblTabDashboard.setBounds(360, 0, 110, 44);
         panelSubMenu.add(lblTabDashboard);
 
+        lblTabDashboard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (marcoPadre != null) {
+                    marcoPadre.abrirDashboardKPIs();
+                }
+            }
+        });
+        
+        
         // Pestaña 4 (ACTIVA): Administración de Usuarios
         JLabel lblTabUsuarios = new JLabel("Administración de Usuarios", SwingConstants.CENTER);
         lblTabUsuarios.setForeground(Color.decode("#0095D9"));
@@ -251,19 +270,10 @@ public class PanelAdministracionUsuarios extends JPanel {
                             marcoPadre.abrirFormularioEdicionUsuario(filaModelo, nombre, usuarioRed, areaExtraida, rol);
                         }
                     } else {
-                        // Hizo clic en "🗑 Eliminar" -> Confirmación en Java (RF-17)
+                        // Hizo clic en "🗑 Eliminar" -> Abre la Pantalla 19 (¿Eliminar Usuario?)
                         if (estadoActual.equalsIgnoreCase("Activo")) {
-                            int confirmar = JOptionPane.showConfirmDialog(PanelAdministracionUsuarios.this,
-                                    "¿Está seguro de que desea inhabilitar/eliminar el acceso del usuario:\n" +
-                                    nombre + " (" + usuarioRed + ")?\n\n" +
-                                    "Su estado pasará a 'Inactivo' conservando su historial de tickets (RF-17).",
-                                    "Confirmar Baja de Usuario", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-
-                            if (confirmar == JOptionPane.YES_OPTION) {
-                                modeloUsuarios.setValueAt("Inactivo", filaModelo, 5);
-                                JOptionPane.showMessageDialog(PanelAdministracionUsuarios.this,
-                                        "¡El usuario " + nombre + " ha sido pasado a estado Inactivo!",
-                                        "Usuario Inhabilitado", JOptionPane.INFORMATION_MESSAGE);
+                            if (marcoPadre != null) {
+                                marcoPadre.abrirConfirmacionEliminarUsuario(filaModelo, nombre);
                             }
                         } else {
                             int reactivar = JOptionPane.showConfirmDialog(PanelAdministracionUsuarios.this,
@@ -294,6 +304,15 @@ public class PanelAdministracionUsuarios extends JPanel {
             modeloUsuarios.setValueAt(usuarioRed, filaEditar, 2);
             modeloUsuarios.setValueAt("Colaborador / " + area, filaEditar, 3);
             modeloUsuarios.setValueAt(rol, filaEditar, 4);
+        }
+    }
+    
+    /**
+     * Cambia el estado de la fila confirmada a "Inactivo" (borrado lógico RF-17)
+     */
+    public void inhabilitarUsuarioEnTabla(int filaModelo) {
+        if (filaModelo >= 0 && filaModelo < modeloUsuarios.getRowCount()) {
+            modeloUsuarios.setValueAt("Inactivo", filaModelo, 5);
         }
     }
 

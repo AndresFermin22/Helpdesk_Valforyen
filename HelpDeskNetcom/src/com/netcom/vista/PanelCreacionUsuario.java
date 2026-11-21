@@ -106,15 +106,19 @@ public class PanelCreacionUsuario extends JPanel {
         lblArea.setBounds(40, 190, 260, 18);
         panelTarjeta.add(lblArea);
 
+     // 1. PRIMERO se crea el objeto en memoria (sin esta línea, cmbArea es null)
         cmbArea = new JComboBox<String>();
-        cmbArea.setModel(new DefaultComboBoxModel<String>(new String[] {
-            "Urgencias", "Consulta Externa", "Laboratorio", "Farmacia", "Facturación", "Administración", "Soporte TI"
-        }));
+        
+        // 2. DESPUÉS se le cargan las áreas desde CatalogoClinica
+        cmbArea.setModel(new DefaultComboBoxModel<String>(
+                com.netcom.utilidades.CatalogoClinica.obtenerAreasClinicas(false)));
+        
         cmbArea.setBackground(Color.WHITE);
         cmbArea.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         cmbArea.setBounds(40, 212, 265, 38);
         panelTarjeta.add(cmbArea);
-
+        
+        
         JLabel lblRol = new JLabel("Rol de Sistema");
         lblRol.setForeground(new Color(66, 66, 66));
         lblRol.setFont(new Font("Segoe UI", Font.BOLD, 12));

@@ -90,9 +90,9 @@ public class PanelBandejaGlobal extends JPanel {
         lblTabInventario.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(PanelBandejaGlobal.this,
-                        "Aquí conectaremos la Pantalla 15 (Extractor de Inventario).",
-                        "Próximo Módulo", JOptionPane.INFORMATION_MESSAGE);
+                if (marcoPadre != null) {
+                    marcoPadre.mostrarPantalla("PANTALLA_INVENTARIO");
+                }
             }
         });
 
@@ -107,9 +107,9 @@ public class PanelBandejaGlobal extends JPanel {
         lblTabDashboard.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(PanelBandejaGlobal.this,
-                        "Aquí conectaremos la Pantalla 16 (Dashboard KPIs).",
-                        "Próximo Módulo", JOptionPane.INFORMATION_MESSAGE);
+                if (marcoPadre != null) {
+                    marcoPadre.abrirDashboardKPIs();
+                }
             }
         });
 
@@ -377,9 +377,9 @@ public class PanelBandejaGlobal extends JPanel {
 
         btnExportar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(PanelBandejaGlobal.this,
-                        "Aquí se abrirá el modal de Exportación de Reportes (Pantalla 13).",
-                        "Exportar Reportes", JOptionPane.INFORMATION_MESSAGE);
+                if (marcoPadre != null) {
+                    marcoPadre.mostrarPantalla("PANTALLA_EXPORTAR_TICKETS");
+                }
             }
         });
 
@@ -457,7 +457,23 @@ public class PanelBandejaGlobal extends JPanel {
         }
         recalcularContadoresGlobales();
     }
+    
+    /**
+     * Devuelve todas las filas actuales de la Bandeja Global para calcular el Ranking Top 5 y la Gráfica
+     */
+    public java.util.List<Object[]> obtenerTodosLosTicketsGlobales() {
+        java.util.List<Object[]> lista = new java.util.ArrayList<>();
+        for (int i = 0; i < modeloGlobal.getRowCount(); i++) {
+            Object[] fila = new Object[modeloGlobal.getColumnCount()];
+            for (int j = 0; j < modeloGlobal.getColumnCount(); j++) {
+                fila[j] = modeloGlobal.getValueAt(i, j);
+            }
+            lista.add(fila);
+        }
+        return lista;
+    }
 
+    
     public BarraSuperior getBarraSuperior() {
         return barraSuperior;
     }

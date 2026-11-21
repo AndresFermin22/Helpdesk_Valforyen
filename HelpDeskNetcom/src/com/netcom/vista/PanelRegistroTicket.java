@@ -125,18 +125,18 @@ public class PanelRegistroTicket extends JPanel {
                 BorderFactory.createEmptyBorder(4, 10, 4, 10)));
         cardSolicitante.add(txtNombreSolicitante);
 
-        // Campo 2: Área / Servicio
+     // Campo 2: Área / Servicio
         JLabel lblArea = new JLabel("Área / Servicio");
         lblArea.setForeground(new Color(66, 66, 66));
         lblArea.setFont(new Font("Segoe UI", Font.BOLD, 11));
         lblArea.setBounds(275, 45, 200, 16);
         cardSolicitante.add(lblArea);
 
-        cmbAreaSolicitante = new JComboBox<String>();
-        cmbAreaSolicitante.setModel(new DefaultComboBoxModel<String>(new String[] {
-            "-- Seleccione --", "Urgencias", "Consulta Externa", "Laboratorio", "Farmacia", "Administración", "Soporte TI"
-        }));
-        cmbAreaSolicitante.setEnabled(false); // Seleccionado automáticamente según perfil
+        cmbAreaSolicitante = new JComboBox<String>(); // <--- ESTA ERA LA LÍNEA QUE FALTABA
+        cmbAreaSolicitante.setModel(new DefaultComboBoxModel<String>(
+                com.netcom.utilidades.CatalogoClinica.obtenerAreasClinicas(false)));
+        cmbAreaSolicitante.setEnabled(true); // Permite elegir el consultorio exacto si el médico rotó de sala
+        cmbAreaSolicitante.setBackground(Color.WHITE);
         cmbAreaSolicitante.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         cmbAreaSolicitante.setBounds(275, 64, 230, 34);
         cardSolicitante.add(cmbAreaSolicitante);
@@ -259,13 +259,17 @@ public class PanelRegistroTicket extends JPanel {
         });
     }
 
-    /**
-     * Autocompleta automáticamente Nombre, Área y Cargo según el usuario que inició sesión (RF-19)
-     */
     public void autocompletarSolicitante(String nombreCompleto, String area, String cargo) {
         txtNombreSolicitante.setText(nombreCompleto);
-        cmbAreaSolicitante.setSelectedItem(area);
         cmbCargoSolicitante.setSelectedItem(cargo);
+
+        // Selecciona la primera coincidencia exacta o que comience por el área del usuario
+        for (int i = 0; i < cmbAreaSolicitante.getItemCount(); i++) {
+            if (cmbAreaSolicitante.getItemAt(i).toLowerCase().startsWith(area.toLowerCase())) {
+                cmbAreaSolicitante.setSelectedIndex(i);
+                break;
+            }
+        }
     }
 
     /**
